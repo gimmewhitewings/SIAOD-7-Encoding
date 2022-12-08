@@ -8,11 +8,11 @@ list<Node78> LZ78::Encode(string input)
 	
 	for (size_t i = 0; i < input.size(); i++)
 	{
-		if (dictionary.find(buffer += input[i]) == dictionary.end())
+		if (dictionary.find(buffer + input[i]) == dictionary.end())
 		{
 			Node78 node(dictionary[buffer], input[i]);
 			result.push_back(node);
-			dictionary[buffer + input[i]] = dictionary.size();
+			dictionary[buffer + input[i]] = dictionary.size() + 1;
 			buffer = "";
 		}
 		else
@@ -34,21 +34,13 @@ list<Node78> LZ78::Encode(string input)
 string LZ78::Decode(list<Node78> input)
 {
 	string result = "";
+	string word;
 	map<int, string> dictionary = {};
-	int index = 0;
 	for (Node78 node : input)
 	{
-		if (dictionary.find(node.position) == dictionary.end())
-		{
-			dictionary[index] = dictionary[node.position] + node.next;
-			result += dictionary[index];
-		}
-		else
-		{
-			dictionary[index] = dictionary[node.position] + node.next;
-			result += dictionary[index];
-		}
-		index++;
+		word = dictionary[node.position] + node.next;
+		result += word;
+		dictionary[dictionary.size() + 1] = word;
 	}
 	return result;
 }
