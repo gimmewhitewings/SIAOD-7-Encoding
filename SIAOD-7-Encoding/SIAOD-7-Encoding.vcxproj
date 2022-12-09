@@ -127,15 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Huffman.cpp" />
     <ClCompile Include="LZ77.cpp" />
     <ClCompile Include="LZ78.cpp" />
     <ClCompile Include="RLE.cpp" />
+    <ClCompile Include="ShannonFano.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Huffman.h" />
     <ClInclude Include="LZ77.h" />
     <ClInclude Include="LZ78.h" />
     <ClInclude Include="RLE.h" />
+    <ClInclude Include="ShannonFano.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
