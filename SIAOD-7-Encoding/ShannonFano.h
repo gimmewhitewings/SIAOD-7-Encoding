@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -6,23 +7,25 @@
 
 using namespace std;
 
-class ShannonFano
-{
+class ShannonFano {
 private:
-	struct Node
-	{
-		char symbol = 0;
-		int frequency = 0;
-		string code = "";
-		Node* left = nullptr;
-		Node* right = nullptr;
-	};
-	Node* root = nullptr;
-	void add(Node node);
-	void printNode(Node* node, int level);
-	void printTree(Node* node);
-	void shannon(vector<Node> vector);
-public:
-	void Encode(string input);
-};
+    struct Node {
+        char symbol = 0;
+        int frequency = 0;
+        string code = "";
+        Node *left = nullptr;
+        Node *right = nullptr;
+    };
+    Node *root = nullptr;
 
+    void add(Node node);
+
+    void printNode(Node *node, int level);
+
+    void printTree(Node *node);
+
+    void shannon(vector <Node> vector);
+
+public:
+    void Encode(string input);
+};

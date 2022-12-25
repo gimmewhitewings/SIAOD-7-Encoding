@@ -1,11 +1,12 @@
 #pragma once
+
 #include <string>
 
 using namespace std;
 
-class RLE
-{
+class RLE {
 public:
-	static string Encode(string input);
-	static string Decode(string input);
+    static string Encode(string input);
+
+    static string Decode(string input);
 };
