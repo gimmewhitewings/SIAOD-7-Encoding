@@ -168,8 +168,7 @@ void Huffman::encodeFile(string txtFileName, string binFileName)
 		string code = getSymbolCode(text[i]);
 		for (int j = 0; j < code.length(); j++)
 		{
-			
-			if (code[j] == '1')
+			if (code[j] == '1') // 
 			{
 				byte |= 1 << (7 - bit);
 			}
@@ -181,6 +180,11 @@ void Huffman::encodeFile(string txtFileName, string binFileName)
 				byte = 0;
 			}
 		}
+	}
+	// Write last byte
+	if (bit != 0)
+	{
+		binFile.write((char*)&byte, sizeof(byte));
 	}
 	txtFile.close();
 	binFile.close();
