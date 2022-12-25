@@ -64,15 +64,25 @@ private:
     Node *root;
     vector <Letter> letters;
     vector <Node> nodes;
+	int size;
+	float averageLength;
 
     void printNode(Node *node, int level);
 
     string getSymbolCode(char symbol);
 
     void assignCode(Node *node, string code);
+	
+	float dispersion(char symbol);
+
+	float getProbability(char symbol);
+
+	float getAverageLength();
 
 public:
     void print();
+
+    void printTable();
 
     void encode(string input);
 

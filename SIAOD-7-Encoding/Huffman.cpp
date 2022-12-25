@@ -5,9 +5,7 @@ void Huffman::printNode(Node *node, int level) {
     if (node == nullptr)
         return;
 
-
-
-
+	
     // Print the left subtree
     printNode(node->left, level + 1);
 
@@ -52,11 +50,52 @@ void Huffman::assignCode(Node *node, string code) {
     }
 }
 
+float Huffman::dispersion(char symbol)
+{
+	return abs(this->averageLength - getSymbolCode(symbol).length());
+}
+
+float Huffman::getProbability(char symbol)
+{
+	for (int i = 0; i < letters.size(); i++) {
+		if (letters[i].symbol == symbol) {
+			return (float)letters[i].frequency / size;
+		}
+	}
+	return 0;
+}
+
+float Huffman::getAverageLength()
+{
+	// Get average code length
+	float sumLength = 0;
+	
+    for (int i = 0; i < letters.size(); i++)
+    {
+        sumLength += letters[i].code.length();
+    }
+	float averageLength = sumLength / letters.size();
+    return roundf(averageLength * 100) / 100;
+}
+
 void Huffman::print() {
     printNode(root, 0);
 }
 
+void Huffman::printTable()
+{
+	// Symbol, frequency, probability, code, dispersion
+	this->averageLength = getAverageLength();
+	cout << "Symbol\tFrequency\tProbability\tCode\t\t\tDispersion" << endl;
+	for (int i = 0; i < letters.size(); i++)
+	{
+		cout << letters[i].symbol << "\t" << letters[i].frequency << "\t\t" << getProbability(letters[i].symbol) << "\t" << letters[i].code << "\t\t" << dispersion(letters[i].symbol) << endl;
+	}
+	cout << "Average code length: " << this->averageLength << endl;
+}
+
 void Huffman::encode(string input) {
+    this->size = input.length();
     for (int i = 0; i < input.length(); i++) {
         bool isFound = false;
         for (int j = 0; j < letters.size(); j++) {

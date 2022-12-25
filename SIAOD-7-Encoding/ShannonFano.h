@@ -26,6 +26,8 @@ private:
 
     void shannon(vector <Node> vector);
 
+	string getCode(char symbol);
 public:
     void Encode(string input);
+    string getEncodedString(string input);
 };

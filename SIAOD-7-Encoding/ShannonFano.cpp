@@ -1,37 +1,47 @@
 #include "ShannonFano.h"
 
 void ShannonFano::add(Node node) {
-    if (root == nullptr) {
-        root = new Node;
-        root->symbol = node.symbol;
-        root->frequency = node.frequency;
-        root->code = node.code;
-    } else {
-        Node *current = root;
-        while (true) {
-            if (node.symbol < current->symbol) {
-                if (current->left == nullptr) {
-                    current->left = new Node;
-                    current->left->symbol = node.symbol;
-                    current->left->frequency = node.frequency;
-                    current->left->code = node.code;
-                    break;
-                } else {
-                    current = current->left;
-                }
-            } else {
-                if (current->right == nullptr) {
-                    current->right = new Node;
-                    current->right->symbol = node.symbol;
-                    current->right->frequency = node.frequency;
-                    current->right->code = node.code;
-                    break;
-                } else {
-                    current = current->right;
-                }
-            }
-        }
-    }
+	if (root == nullptr) {
+		root = new Node;
+		root->symbol = node.symbol;
+		root->frequency = node.frequency;
+		root->code = node.code;
+		root->left = node.left;
+		root->right = node.right;
+	}
+	else {
+		Node* current = root;
+		while (true) {
+			if (node.frequency < current->frequency) {
+				if (current->left != nullptr) {
+					current = current->left;
+				}
+				else {
+					current->left = new Node;
+					current->left->symbol = node.symbol;
+					current->left->frequency = node.frequency;
+					current->left->code = node.code;
+					current->left->left = node.left;
+					current->left->right = node.right;
+					break;
+				}
+			}
+			else {
+				if (current->right != nullptr) {
+					current = current->right;
+				}
+				else {
+					current->right = new Node;
+					current->right->symbol = node.symbol;
+					current->right->frequency = node.frequency;
+					current->right->code = node.code;
+					current->right->left = node.left;
+					current->right->right = node.right;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void ShannonFano::printNode(Node *node, int level) {
@@ -85,37 +95,49 @@ void ShannonFano::shannon(vector <Node> vector) {
     shannon(vector2);
 }
 
+string ShannonFano::getCode(char symbol)
+{
+	Node* current = root;
+	while (current->symbol != symbol)
+	{
+		if (symbol < current->symbol)
+		{
+			current = current->left;
+		}
+		else
+		{
+			current = current->right;
+		}
+	}
+	return current->code;
+}
+
 void ShannonFano::Encode(string input) {
-    vector <Node> nodes;
-    for (int i = 0; i < input.length(); i++) {
-        bool found = false;
-        for (int j = 0; j < nodes.size(); j++) {
-            if (nodes[j].symbol == input[i]) {
-                nodes[j].frequency++;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            Node node;
-            node.symbol = input[i];
-            node.frequency = 1;
-            nodes.push_back(node);
-        }
-    }
+	vector <Node> vector;
+	for (int i = 0; i < input.length(); i++) {
+		bool found = false;
+		for (int j = 0; j < vector.size(); j++) {
+			if (vector[j].symbol == input[i]) {
+				vector[j].frequency++;
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			Node node;
+			node.symbol = input[i];
+			node.frequency = 1;
+			vector.push_back(node);
+		}
+	}
+	shannon(vector);
+}
 
-    // Sort nodes by frequency
-    for (int i = 0; i < nodes.size() - 1; i++) {
-        for (int j = i + 1; j < nodes.size(); j++) {
-            if (nodes[i].frequency < nodes[j].frequency) {
-                Node temp = nodes[i];
-                nodes[i] = nodes[j];
-                nodes[j] = temp;
-            }
-        }
-    }
-
-    shannon(nodes);
-
-    printTree(root);
+string ShannonFano::getEncodedString(string input)
+{
+	string encodedString = "";
+	for (int i = 0; i < input.length(); i++) {
+		encodedString += getCode(input[i]);
+	}
+	return encodedString;
 }
