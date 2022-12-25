@@ -1,14 +1,77 @@
 #include "ShannonFano.h"
 
-void ShannonFano::printTree(vector<Node> vector)
+void ShannonFano::add(Node node)
 {
+	if (root == nullptr)
+	{
+		root = new Node;
+		root->symbol = node.symbol;
+		root->frequency = node.frequency;
+		root->code = node.code;
+	}
+	else
+	{
+		Node* current = root;
+		while (true)
+		{
+			if (node.symbol < current->symbol)
+			{
+				if (current->left == nullptr)
+				{
+					current->left = new Node;
+					current->left->symbol = node.symbol;
+					current->left->frequency = node.frequency;
+					current->left->code = node.code;
+					break;
+				}
+				else
+				{
+					current = current->left;
+				}
+			}
+			else
+			{
+				if (current->right == nullptr)
+				{
+					current->right = new Node;
+					current->right->symbol = node.symbol;
+					current->right->frequency = node.frequency;
+					current->right->code = node.code;
+					break;
+				}
+				else
+				{
+					current = current->right;
+				}
+			}
+		}
+	}
+}
+
+void ShannonFano::printNode(Node* node, int level)
+{
+	if (node != nullptr)
+	{
+		printNode(node->right, level + 1);
+		for (int i = 0; i < level; i++)
+		{
+			cout << "\t";
+		}
+		cout << node->symbol << " " << node->code << endl;
+		printNode(node->left, level + 1);
+	}
+}
+
+void ShannonFano::printTree(Node* vector)
+{
+	printNode(root, 0);
 }
 
 void ShannonFano::shannon(vector<Node> vector)
 {
 	if (vector.size() == 1)
 	{
-		cout << vector[0].symbol << " - " << vector[0].code << endl;
+		add(vector[0]);
 		return;
 	}
 	int sum = 0;
@@ -86,4 +149,6 @@ void ShannonFano::Encode(string input)
 	}
 	
 	shannon(nodes);
+
+	printTree(root);
 }

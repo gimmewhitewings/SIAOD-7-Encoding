@@ -14,10 +14,15 @@ private:
 		char symbol = 0;
 		int frequency = 0;
 		string code = "";
+		Node* left = nullptr;
+		Node* right = nullptr;
 	};
-	static void printTree(vector<Node> vector);
-	static void shannon(vector<Node> vector);
+	Node* root = nullptr;
+	void add(Node node);
+	void printNode(Node* node, int level);
+	void printTree(Node* node);
+	void shannon(vector<Node> vector);
 public:
-	static void Encode(string input);
+	void Encode(string input);
 };
 
